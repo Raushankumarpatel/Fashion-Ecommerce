@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: fashion-ecommerce-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        value: YOUR_MONGO_URI
+      - key: CORS_ORIGIN
+        value: https://your-frontend-url.vercel.app

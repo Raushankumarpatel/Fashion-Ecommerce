@@ -4,7 +4,7 @@ const User = require("./models/User");
 const Product = require("./models/Product");
 require("dotenv").config();
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/fashion_ecommerce";
+const MONGO_URI = process.env.MONGO_URI || "mongodb://Raushan:e8voper3Ogphuq4d@ac-hcnqklz-shard-00-00.pung0de.mongodb.net:27017,ac-hcnqklz-shard-00-01.pung0de.mongodb.net:27017,ac-hcnqklz-shard-00-02.pung0de.mongodb.net:27017/fashion_ecommerce?ssl=true&replicaSet=atlas-sxqpgh-shard-0&authSource=admin&appName=Cluster0";
 
 const mockProducts = [
   {
@@ -182,7 +182,7 @@ const mockProducts = [
     price: 1799,
     category: "Men",
     stock: 22,
-    image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500",
+    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500",
     description: "Stylish and stretchable cotton chinos, ideal for office and weekend wear.",
     size: ["30", "32", "34", "36"],
     color: ["Beige Chino", "Navy Blue", "Olive"]
@@ -248,6 +248,11 @@ const seedDatabase = async () => {
           seller: seller._id,
         });
         insertedCount++;
+      } else {
+        await Product.updateOne(
+          { _id: exists._id },
+          { $set: { image: productData.image } }
+        );
       }
     }
     

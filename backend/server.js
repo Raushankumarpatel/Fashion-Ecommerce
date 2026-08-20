@@ -9,7 +9,12 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use("/api/products", productRoutes);
@@ -21,13 +26,20 @@ app.get("/", (req, res) => {
   res.send("Fashion E-commerce Backend Running");
 });
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err));
-
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+async function startServer() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("MongoDB Connected");
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error("MongoDB connection failed:", err.message);
+    process.exitCode = 1;
+  }
+}
+
+startServer();
