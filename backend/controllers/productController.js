@@ -17,6 +17,7 @@ const getProducts = async (req, res) => {
     if (req.query.seller) {
       query.seller = req.query.seller;
     }
+    
     const products = await Product.find(query).sort({ createdAt: -1 });
     res.json(products);
   } catch (error) {

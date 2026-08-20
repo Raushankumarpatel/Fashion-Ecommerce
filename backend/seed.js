@@ -4,8 +4,7 @@ const User = require("./models/User");
 const Product = require("./models/Product");
 require("dotenv").config();
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb://Raushan:e8voper3Ogphuq4d@ac-hcnqklz-shard-00-00.pung0de.mongodb.net:27017,ac-hcnqklz-shard-00-01.pung0de.mongodb.net:27017,ac-hcnqklz-shard-00-02.pung0de.mongodb.net:27017/fashion_ecommerce?ssl=true&replicaSet=atlas-sxqpgh-shard-0&authSource=admin&appName=Cluster0";
-
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://Raushan:e8voper3Ogphuq4d@cluster0.pung0de.mongodb.net/"
 const mockProducts = [
   {
     name: "Classic Slim Fit Denim Shirt",
