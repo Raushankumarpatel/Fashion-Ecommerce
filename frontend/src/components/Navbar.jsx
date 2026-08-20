@@ -1,5 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getCartCount } from "../utils/cartUtils";
 
 function Navbar() {
   const [user, setUser] = useState(null);
@@ -12,9 +13,7 @@ function Navbar() {
     }
 
     const updateCount = () => {
-      const cart = JSON.parse(localStorage.getItem("cart")) || [];
-      const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-      setCartCount(totalItems);
+      setCartCount(getCartCount());
     };
 
     updateCount();

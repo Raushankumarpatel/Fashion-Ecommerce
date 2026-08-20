@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/api";
+import { getCartItems, getCartTotal, saveStoredArray } from "../utils/cartUtils";
 
 function Checkout() {
   const navigate = useNavigate();
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(savedCart);
+    setCart(getCartItems());
   }, []);
 
   const [form, setForm] = useState({
@@ -24,10 +24,7 @@ function Checkout() {
       return;
     }
 
-    const totalAmount = cart.reduce(
-      (total, item) => total + item.price * (item.quantity || 1),
-      0
-    );
+    const totalAmount = getCartTotal(cart);
 
     const orderData = {
       customerName: form.customerName,
@@ -48,8 +45,7 @@ function Checkout() {
       await API.post("/orders", orderData);
       alert("Order Placed Successfully!");
       
-      // Clear Cart and trigger Navbar refresh
-      localStorage.removeItem("cart");
+      saveStoredArray("cart", []);
       window.dispatchEvent(new Event("cart-updated"));
       
       navigate("/orders");
@@ -59,10 +55,7 @@ function Checkout() {
     }
   };
 
-  const totalAmount = cart.reduce(
-    (total, item) => total + item.price * (item.quantity || 1),
-    0
-  );
+  const totalAmount = getCartTotal(cart);
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 animate-fadeIn">

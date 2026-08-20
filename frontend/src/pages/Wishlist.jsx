@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getWishlistItems, saveStoredArray } from "../utils/cartUtils";
 
 function Wishlist() {
   const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
-    const savedWishlist =
-      JSON.parse(localStorage.getItem("wishlist")) || [];
-
-    setWishlist(savedWishlist);
+    setWishlist(getWishlistItems());
   }, []);
 
   const removeFromWishlist = (index) => {
@@ -17,26 +16,27 @@ function Wishlist() {
 
     setWishlist(updatedWishlist);
 
-    localStorage.setItem(
-      "wishlist",
-      JSON.stringify(updatedWishlist)
-    );
+    saveStoredArray("wishlist", updatedWishlist);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-4xl font-bold text-center mb-8">
-        My Wishlist ❤️
-      </h1>
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-left">My Wishlist ❤️</h1>
 
-      {wishlist.length === 0 ? (
-        <div className="text-center">
-          <h2 className="text-2xl text-gray-500">
-            Wishlist is Empty
-          </h2>
-        </div>
-      ) : (
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {wishlist.length === 0 ? (
+          <div className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-sm space-y-6">
+            <div className="text-6xl">💝</div>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800">Your Wishlist is Empty</h2>
+              <p className="text-gray-400 text-sm mt-1">Save your favorite fashion picks here for later.</p>
+            </div>
+            <Link to="/" className="inline-block bg-pink-600 hover:bg-pink-700 text-white font-bold px-6 py-3 rounded-xl transition-all">
+              Discover Products
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {wishlist.map((item, index) => (
             <div
               key={index}
@@ -64,19 +64,23 @@ function Wishlist() {
                   ₹{item.price}
                 </p>
 
-                <button
-                  onClick={() =>
-                    removeFromWishlist(index)
-                  }
-                  className="w-full mt-4 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg"
-                >
-                  Remove
-                </button>
+                <div className="flex gap-2 mt-4">
+                  <Link to={`/product/${item._id}`} className="flex-1 text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg font-semibold">
+                    View
+                  </Link>
+                  <button
+                    onClick={() => removeFromWishlist(index)}
+                    className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg font-semibold"
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             </div>
           ))}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import ProductCard from "../components/ProductCard";
 
 function Home() {
   const [products, setProducts] = useState([]);
+  const [loadError, setLoadError] = useState("");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
 
@@ -17,8 +18,10 @@ function Home() {
     try {
       const res = await API.get("/products");
       setProducts(res.data);
+      setLoadError("");
     } catch (error) {
-      console.log(error);
+      console.error("Unable to load products:", error);
+      setLoadError("Products load nahi ho rahe. Backend server check karein.");
     }
   };
 
@@ -193,7 +196,14 @@ function Home() {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-          {filteredProducts.length > 0 ? (
+          {loadError ? (
+            <div className="col-span-full text-center py-20 text-red-500">
+              <p className="text-lg font-semibold">{loadError}</p>
+              <p className="text-xs mt-2 text-gray-500">
+                Backend ko port 5000 par start karke page refresh karein.
+              </p>
+            </div>
+          ) : filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <ProductCard
                 key={product._id}

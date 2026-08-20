@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getCartItems, getCartTotal, saveStoredArray } from "../utils/cartUtils";
 
 function Cart() {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(savedCart);
+    setCart(getCartItems());
   }, []);
 
   const updateCart = (newCart) => {
     setCart(newCart);
-    localStorage.setItem("cart", JSON.stringify(newCart));
-    // Instantly notify Navbar to update the cart badge count
+    saveStoredArray("cart", newCart);
     window.dispatchEvent(new Event("cart-updated"));
   };
 
@@ -38,10 +37,7 @@ function Cart() {
     updateCart(newCart);
   };
 
-  const totalAmount = cart.reduce(
-    (total, item) => total + item.price * (item.quantity || 1),
-    0
-  );
+  const totalAmount = getCartTotal(cart);
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 animate-fadeIn">
