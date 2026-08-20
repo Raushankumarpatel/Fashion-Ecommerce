@@ -4,7 +4,7 @@ const User = require("./models/User");
 const Product = require("./models/Product");
 require("dotenv").config();
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://Raushan:e8voper3Ogphuq4d@cluster0.pung0de.mongodb.net/"
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://Raushan:e8voper3Ogphuq4d@cluster0.pung0de.mongodb.net/fashion_ecommerce";
 const mockProducts = [
   {
     name: "Classic Slim Fit Denim Shirt",
@@ -254,7 +254,7 @@ const seedDatabase = async () => {
         );
       }
     }
-    
+
     console.log(`Successfully seeded ${insertedCount} new products (skipped existing ones)!`);
 
     mongoose.connection.close();
