@@ -2,6 +2,8 @@ const express = require("express");
 
 const {
   createOrder,
+  createRazorpayOrder,
+  verifyPayment,
   getOrders,
   updateOrderStatus,
   updateOrderItemStatus,
@@ -10,6 +12,8 @@ const {
 const router = express.Router();
 
 router.post("/", createOrder);
+router.post("/razorpay-order", createRazorpayOrder);
+router.post("/verify-payment", verifyPayment);
 router.get("/", getOrders);
 router.put("/:id/status", updateOrderStatus);
 router.put("/:id/item/:productId", updateOrderItemStatus);

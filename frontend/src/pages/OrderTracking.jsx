@@ -64,9 +64,20 @@ function OrderTracking() {
                 <strong>Address:</strong> {order.address}
               </p>
 
-              <p className="text-pink-600 font-bold text-xl mt-3">
-                Total: ₹{order.totalAmount}
-              </p>
+              <div className="flex flex-wrap items-center gap-2 mt-3">
+                <span className="text-pink-600 font-bold text-xl">
+                  Total: ₹{order.totalAmount}
+                </span>
+                <span
+                  className={`text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider ${
+                    order.paymentStatus === "Paid"
+                      ? "bg-emerald-100 text-emerald-800"
+                      : "bg-amber-100 text-amber-800"
+                  }`}
+                >
+                  {order.paymentMethod === "Razorpay" ? "💳 Razorpay" : "💵 COD"} ({order.paymentStatus || "Pending"})
+                </span>
+              </div>
 
               <div className="mt-4">
                 <h3 className="font-bold mb-2">Products:</h3>

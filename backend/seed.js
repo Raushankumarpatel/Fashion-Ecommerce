@@ -4,7 +4,7 @@ const User = require("./models/User");
 const Product = require("./models/Product");
 require("dotenv").config();
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://Raushan:e8voper3Ogphuq4d@cluster0.pung0de.mongodb.net/fashion_ecommerce";
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://Raushan:e8voper3Ogphuq4d@cluster0.pung0de.mongodb.net/fashion_ecommerce?retryWrites=true&w=majority";
 const mockProducts = [
   {
     name: "Classic Slim Fit Denim Shirt",
